@@ -76,6 +76,14 @@ class SoundMeterViewModel : ViewModel() {
         _state.value = SoundMeterState(isRunning = _state.value.isRunning)
     }
 
+    fun setCalibrationOffset(offset: Double) {
+        soundMeter.calibrationOffset = offset
+    }
+
+    fun getCalibrationOffset(): Double {
+        return soundMeter.calibrationOffset
+    }
+
     override fun onCleared() {
         super.onCleared()
         soundMeter.release()

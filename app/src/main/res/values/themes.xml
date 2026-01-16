@@ -13,4 +13,11 @@
     <style name="Theme.SoundMeter.Splash" parent="Theme.SoundMeter">
         <item name="android:windowBackground">@color/background</item>
     </style>
+
+    <style name="CalibrationDialog" parent="Theme.Material3.Dark.Dialog">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:windowMinWidthMajor">90%</item>
+        <item name="android:windowMinWidthMinor">90%</item>
+    </style>
 </resources>

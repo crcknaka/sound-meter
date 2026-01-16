@@ -24,6 +24,9 @@ class SoundMeter {
     private val _isRunning = MutableStateFlow(false)
     val isRunning: StateFlow<Boolean> = _isRunning
 
+    // Calibration offset in dB
+    var calibrationOffset: Double = 0.0
+
     companion object {
         private const val SAMPLE_RATE = 44100
         private const val CHANNEL_CONFIG = AudioFormat.CHANNEL_IN_MONO
@@ -109,9 +112,9 @@ class SoundMeter {
         // Normalize to 0-1 range (16-bit audio max is 32767)
         val normalizedAmplitude = amplitude / 32767.0
 
-        // Convert to decibels with calibration offset
-        // Adding 90 to shift the range to approximately 30-120 dB for typical sounds
-        val db = 20 * log10(normalizedAmplitude) + 90
+        // Convert to decibels with base offset of 90 to shift range to ~30-120 dB
+        // Then apply user calibration offset
+        val db = 20 * log10(normalizedAmplitude) + 90 + calibrationOffset
 
         return db.coerceIn(MIN_DB, MAX_DB)
     }

@@ -1,28 +1,33 @@
 package com.soundmeter.app
 
 import android.Manifest
-import android.content.Intent
+import android.content.Context
 import android.content.pm.PackageManager
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
-import android.os.Build
-import android.os.VibrationEffect
-import android.os.Vibrator
-import android.os.VibratorManager
 import android.view.HapticFeedbackConstants
+import android.view.LayoutInflater
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
+import com.google.android.material.slider.Slider
 import com.soundmeter.app.databinding.ActivityMainBinding
+import com.soundmeter.app.databinding.DialogCalibrationBinding
 import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private val viewModel: SoundMeterViewModel by viewModels()
+
+    companion object {
+        private const val PREFS_NAME = "sound_meter_prefs"
+        private const val KEY_CALIBRATION_OFFSET = "calibration_offset"
+    }
 
     private val requestPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
@@ -44,11 +49,24 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        loadCalibration()
         setupClickListeners()
         observeState()
 
         // Auto-start measuring on app launch
         checkPermissionAndStart()
+    }
+
+    private fun loadCalibration() {
+        val prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        val offset = prefs.getFloat(KEY_CALIBRATION_OFFSET, 0f).toDouble()
+        viewModel.setCalibrationOffset(offset)
+    }
+
+    private fun saveCalibration(offset: Float) {
+        val prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        prefs.edit().putFloat(KEY_CALIBRATION_OFFSET, offset).apply()
+        viewModel.setCalibrationOffset(offset.toDouble())
     }
 
     private fun setupClickListeners() {
@@ -69,10 +87,43 @@ class MainActivity : AppCompatActivity() {
             updateStatsDisplay(SoundMeterState())
         }
 
-        binding.proButton.setOnClickListener { view ->
+        binding.calibrationButton.setOnClickListener { view ->
             performHapticFeedback(view)
-            startActivity(Intent(this, ProFeaturesActivity::class.java))
+            showCalibrationDialog()
         }
+    }
+
+    private fun showCalibrationDialog() {
+        val dialogBinding = DialogCalibrationBinding.inflate(LayoutInflater.from(this))
+
+        val currentOffset = viewModel.getCalibrationOffset().toFloat()
+        dialogBinding.calibrationSlider.value = currentOffset
+        dialogBinding.offsetValueText.text = getString(R.string.calibration_offset, currentOffset)
+
+        dialogBinding.calibrationSlider.addOnChangeListener { _, value, _ ->
+            dialogBinding.offsetValueText.text = getString(R.string.calibration_offset, value)
+        }
+
+        dialogBinding.resetCalibrationButton.setOnClickListener {
+            dialogBinding.calibrationSlider.value = 0f
+        }
+
+        val dialog = AlertDialog.Builder(this, R.style.CalibrationDialog)
+            .setView(dialogBinding.root)
+            .create()
+
+        dialogBinding.cancelButton.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialogBinding.saveButton.setOnClickListener {
+            val newOffset = dialogBinding.calibrationSlider.value
+            saveCalibration(newOffset)
+            Toast.makeText(this, R.string.calibration_saved, Toast.LENGTH_SHORT).show()
+            dialog.dismiss()
+        }
+
+        dialog.show()
     }
 
     private fun performHapticFeedback(view: android.view.View) {

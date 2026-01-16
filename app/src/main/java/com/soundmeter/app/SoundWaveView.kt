@@ -11,16 +11,17 @@ class SoundWaveView @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) : View(context, attrs, defStyleAttr) {
 
-    private val readings = mutableListOf<Float>()
-    private val maxReadings = 100
+    private val pointCount = 100
+    private val readings = FloatArray(pointCount)
+    private var currentDb = 0f
 
     private var minDb = Float.MAX_VALUE
     private var maxDb = 0f
-    private var avgDb = 0f
 
+    // Paints
     private val wavePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         style = Paint.Style.STROKE
-        strokeWidth = 3f
+        strokeWidth = 2f
         strokeCap = Paint.Cap.ROUND
         strokeJoin = Paint.Join.ROUND
     }
@@ -29,66 +30,67 @@ class SoundWaveView @JvmOverloads constructor(
         style = Paint.Style.FILL
     }
 
-    private val gridPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+    private val gridPaint = Paint().apply {
         style = Paint.Style.STROKE
         strokeWidth = 1f
-        color = Color.parseColor("#2A2A2A")
+        color = Color.parseColor("#222222")
     }
 
     private val textPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        textSize = 28f
-        color = Color.parseColor("#666666")
-        typeface = Typeface.create(Typeface.DEFAULT, Typeface.NORMAL)
+        textSize = 26f
+        color = Color.parseColor("#555555")
     }
 
     private val minMaxPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         style = Paint.Style.STROKE
-        strokeWidth = 2f
-        pathEffect = DashPathEffect(floatArrayOf(10f, 10f), 0f)
+        strokeWidth = 1.5f
+        pathEffect = DashPathEffect(floatArrayOf(8f, 8f), 0f)
     }
 
     private val minMaxTextPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        textSize = 24f
-        typeface = Typeface.create(Typeface.DEFAULT, Typeface.BOLD)
+        textSize = 22f
+        typeface = Typeface.DEFAULT_BOLD
+    }
+
+    private val dotPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        style = Paint.Style.FILL
     }
 
     private val wavePath = Path()
     private val fillPath = Path()
 
+    // Colors
+    private val colorGreen = Color.parseColor("#00E676")
+    private val colorYellow = Color.parseColor("#FFEA00")
+    private val colorOrange = Color.parseColor("#FF9100")
+    private val colorRed = Color.parseColor("#FF1744")
+
     private val minDbRange = 20f
     private val maxDbRange = 120f
 
-    override fun onDraw(canvas: Canvas) {
-        super.onDraw(canvas)
+    private var cachedGradient: LinearGradient? = null
+    private var lastColor = 0
+    private var lastHeight = 0f
 
+    override fun onDraw(canvas: Canvas) {
         val w = width.toFloat()
         val h = height.toFloat()
-        val padding = 60f
+        if (w <= 0 || h <= 0) return
 
-        // Draw grid lines
+        val padding = 45f
+
         drawGrid(canvas, w, h, padding)
-
-        if (readings.isEmpty()) {
-            return
-        }
-
-        // Draw min/max lines
         drawMinMaxLines(canvas, w, h, padding)
-
-        // Draw the wave
         drawWave(canvas, w, h, padding)
     }
 
     private fun drawGrid(canvas: Canvas, w: Float, h: Float, padding: Float) {
         val graphHeight = h - padding * 2
-        val graphWidth = w - padding
 
-        // Horizontal grid lines (dB levels)
-        val dbLevels = listOf(30, 50, 70, 90, 110)
-        for (db in dbLevels) {
+        for (db in intArrayOf(30, 50, 70, 90, 110)) {
             val y = padding + graphHeight * (1 - (db - minDbRange) / (maxDbRange - minDbRange))
             canvas.drawLine(padding, y, w - 10, y, gridPaint)
-            canvas.drawText("$db", 8f, y + 8f, textPaint)
+            canvas.drawText("$db", 6f, y + 7f, textPaint)
         }
     }
 
@@ -97,130 +99,112 @@ class SoundWaveView @JvmOverloads constructor(
 
         val graphHeight = h - padding * 2
 
-        // Min line (green)
         if (minDb >= minDbRange) {
             val minY = padding + graphHeight * (1 - (minDb - minDbRange) / (maxDbRange - minDbRange))
-            minMaxPaint.color = Color.parseColor("#00E676")
+            minMaxPaint.color = colorGreen
             canvas.drawLine(padding, minY, w - 10, minY, minMaxPaint)
-
-            minMaxTextPaint.color = Color.parseColor("#00E676")
-            canvas.drawText("MIN ${minDb.toInt()}", w - 120, minY - 8, minMaxTextPaint)
+            minMaxTextPaint.color = colorGreen
+            canvas.drawText("MIN ${minDb.toInt()}", w - 100, minY - 5, minMaxTextPaint)
         }
 
-        // Max line (red)
         if (maxDb > minDbRange) {
             val maxY = padding + graphHeight * (1 - (maxDb - minDbRange) / (maxDbRange - minDbRange))
-            minMaxPaint.color = Color.parseColor("#FF1744")
+            minMaxPaint.color = colorRed
             canvas.drawLine(padding, maxY, w - 10, maxY, minMaxPaint)
-
-            minMaxTextPaint.color = Color.parseColor("#FF1744")
-            canvas.drawText("MAX ${maxDb.toInt()}", w - 120, maxY - 8, minMaxTextPaint)
+            minMaxTextPaint.color = colorRed
+            canvas.drawText("MAX ${maxDb.toInt()}", w - 100, maxY - 5, minMaxTextPaint)
         }
     }
 
     private fun drawWave(canvas: Canvas, w: Float, h: Float, padding: Float) {
         val graphWidth = w - padding - 10
         val graphHeight = h - padding * 2
-        val stepX = graphWidth / maxReadings
+        val stepX = graphWidth / (pointCount - 1)
 
         wavePath.reset()
         fillPath.reset()
 
-        readings.forEachIndexed { index, db ->
-            val x = padding + index * stepX
+        var lastX = padding
+        var lastY = h - padding
+
+        for (i in 0 until pointCount) {
+            val db = readings[i]
+            val x = padding + i * stepX
+
             val normalizedDb = ((db - minDbRange) / (maxDbRange - minDbRange)).coerceIn(0f, 1f)
             val y = padding + graphHeight * (1 - normalizedDb)
 
-            if (index == 0) {
+            if (i == 0) {
                 wavePath.moveTo(x, y)
                 fillPath.moveTo(x, h - padding)
                 fillPath.lineTo(x, y)
             } else {
+                // Direct lines - no smoothing
                 wavePath.lineTo(x, y)
                 fillPath.lineTo(x, y)
             }
+
+            lastX = x
+            lastY = y
         }
 
-        // Complete fill path
-        if (readings.isNotEmpty()) {
-            val lastX = padding + (readings.size - 1) * stepX
-            fillPath.lineTo(lastX, h - padding)
-            fillPath.close()
-        }
+        fillPath.lineTo(lastX, h - padding)
+        fillPath.close()
 
-        // Get color based on current level
-        val currentDb = readings.lastOrNull() ?: 0f
         val color = getColorForDb(currentDb)
 
-        // Draw gradient fill
-        fillPaint.shader = LinearGradient(
-            0f, padding, 0f, h - padding,
-            Color.argb(80, Color.red(color), Color.green(color), Color.blue(color)),
-            Color.argb(10, Color.red(color), Color.green(color), Color.blue(color)),
-            Shader.TileMode.CLAMP
-        )
+        // Update gradient only when needed
+        if (color != lastColor || h != lastHeight) {
+            cachedGradient = LinearGradient(
+                0f, padding, 0f, h - padding,
+                Color.argb(40, Color.red(color), Color.green(color), Color.blue(color)),
+                Color.argb(0, Color.red(color), Color.green(color), Color.blue(color)),
+                Shader.TileMode.CLAMP
+            )
+            lastColor = color
+            lastHeight = h
+        }
+
+        fillPaint.shader = cachedGradient
         canvas.drawPath(fillPath, fillPaint)
 
-        // Draw wave line
         wavePaint.color = color
         canvas.drawPath(wavePath, wavePaint)
 
-        // Draw current value dot
-        if (readings.isNotEmpty()) {
-            val lastIndex = readings.size - 1
-            val lastX = padding + lastIndex * stepX
-            val lastDb = readings[lastIndex]
-            val normalizedDb = ((lastDb - minDbRange) / (maxDbRange - minDbRange)).coerceIn(0f, 1f)
-            val lastY = padding + graphHeight * (1 - normalizedDb)
-
-            val dotPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-                this.color = color
-                style = Paint.Style.FILL
-            }
-            canvas.drawCircle(lastX, lastY, 8f, dotPaint)
-
-            // Glow effect
-            val glowPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-                this.color = Color.argb(100, Color.red(color), Color.green(color), Color.blue(color))
-                style = Paint.Style.FILL
-                maskFilter = BlurMaskFilter(15f, BlurMaskFilter.Blur.NORMAL)
-            }
-            canvas.drawCircle(lastX, lastY, 12f, glowPaint)
-        }
+        // Current point dot
+        dotPaint.color = color
+        canvas.drawCircle(lastX, lastY, 6f, dotPaint)
     }
 
     private fun getColorForDb(db: Float): Int {
         return when {
-            db < 50 -> Color.parseColor("#00E676")  // Green
-            db < 70 -> Color.parseColor("#FFD600")  // Yellow
-            db < 85 -> Color.parseColor("#FF9100")  // Orange
-            else -> Color.parseColor("#FF1744")     // Red
+            db < 50 -> colorGreen
+            db < 70 -> colorYellow
+            db < 85 -> colorOrange
+            else -> colorRed
         }
     }
 
+    // Instant update - shifts history and adds new reading
     fun addReading(db: Float) {
-        readings.add(db)
-        if (readings.size > maxReadings) {
-            readings.removeAt(0)
-        }
+        // Shift all readings left
+        System.arraycopy(readings, 1, readings, 0, pointCount - 1)
+        // Add new reading at the end
+        readings[pointCount - 1] = db
+        currentDb = db
 
-        // Update min/max/avg
         if (db < minDb) minDb = db
         if (db > maxDb) maxDb = db
-        avgDb = readings.sum() / readings.size
 
         invalidate()
     }
 
-    fun getMinDb(): Float = if (minDb == Float.MAX_VALUE) 0f else minDb
-    fun getMaxDb(): Float = maxDb
-    fun getAvgDb(): Float = avgDb
-
     fun reset() {
-        readings.clear()
+        readings.fill(0f)
+        currentDb = 0f
         minDb = Float.MAX_VALUE
         maxDb = 0f
-        avgDb = 0f
+        cachedGradient = null
         invalidate()
     }
 }

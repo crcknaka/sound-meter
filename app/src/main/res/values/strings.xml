@@ -24,22 +24,19 @@
     <string name="permission_denied">Microphone permission is required to measure sound levels</string>
     <string name="permission_rationale">This app needs microphone access to measure the sound level around you</string>
 
-    <!-- PRO Features Screen -->
-    <string name="pro_features">PRO Features</string>
-    <string name="pro_subtitle">Unlock advanced capabilities</string>
-    <string name="coming_soon">Coming Soon</string>
-    <string name="back">Back</string>
-
-    <!-- Feature Descriptions -->
-    <string name="feature_calibration">Calibration</string>
-    <string name="feature_calibration_desc">Fine-tune your microphone for accurate readings</string>
-    <string name="feature_themes">Custom Themes</string>
-    <string name="feature_themes_desc">Personalize the app with beautiful color schemes</string>
-    <string name="feature_export">Data Export</string>
-    <string name="feature_export_desc">Export your measurements to CSV or JSON format</string>
+    <!-- Calibration -->
+    <string name="calibration">Calibration</string>
+    <string name="calibration_title">Microphone Calibration</string>
+    <string name="calibration_description">Adjust the offset to match a reference sound meter. Use a known reference sound source for best results.</string>
+    <string name="calibration_offset">Offset: %+.1f dB</string>
+    <string name="calibration_reset">Reset to default</string>
+    <string name="calibration_save">Save</string>
+    <string name="calibration_cancel">Cancel</string>
+    <string name="calibration_saved">Calibration saved</string>
 
     <!-- Privacy Policy -->
     <string name="privacy_policy">Privacy Policy</string>
     <string name="privacy_policy_desc">Read our privacy policy</string>
     <string name="version">Version %1$s</string>
+    <string name="back">Back</string>
 </resources>

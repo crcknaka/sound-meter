@@ -5,32 +5,30 @@
     android:viewportWidth="108"
     android:viewportHeight="108">
 
-    <!-- Background circle -->
-    <path
-        android:fillColor="#7C4DFF"
-        android:pathData="M54,54m-54,0a54,54 0,1 1,108 0a54,54 0,1 1,-108 0" />
-
-    <!-- Sound bars - left -->
+    <!-- Sound wave bars - 5 bars forming equalizer pattern -->
+    <!-- Bar 1 (smallest left) -->
     <path
         android:fillColor="#FFFFFF"
-        android:pathData="M30,58 L30,50 C30,48.9 30.9,48 32,48 L34,48 C35.1,48 36,48.9 36,50 L36,58 C36,59.1 35.1,60 34,60 L32,60 C30.9,60 30,59.1 30,58 Z" />
+        android:pathData="M28,58 L28,50 C28,49 29,48 30,48 L34,48 C35,48 36,49 36,50 L36,58 C36,59 35,60 34,60 L30,60 C29,60 28,59 28,58 Z" />
 
+    <!-- Bar 2 -->
     <path
         android:fillColor="#FFFFFF"
-        android:pathData="M40,64 L40,44 C40,42.9 40.9,42 42,42 L44,42 C45.1,42 46,42.9 46,44 L46,64 C46,65.1 45.1,66 44,66 L42,66 C40.9,66 40,65.1 40,64 Z" />
+        android:pathData="M40,64 L40,44 C40,43 41,42 42,42 L46,42 C47,42 48,43 48,44 L48,64 C48,65 47,66 46,66 L42,66 C41,66 40,65 40,64 Z" />
 
-    <!-- Center bar (tallest) -->
+    <!-- Bar 3 (tallest center) -->
     <path
         android:fillColor="#FFFFFF"
-        android:pathData="M50,70 L50,38 C50,36.9 50.9,36 52,36 L56,36 C57.1,36 58,36.9 58,38 L58,70 C58,71.1 57.1,72 56,72 L52,72 C50.9,72 50,71.1 50,70 Z" />
+        android:pathData="M52,70 L52,38 C52,37 53,36 54,36 L54,36 C55,36 56,37 56,38 L56,70 C56,71 55,72 54,72 L54,72 C53,72 52,71 52,70 Z" />
 
-    <!-- Sound bars - right -->
+    <!-- Bar 4 -->
     <path
         android:fillColor="#FFFFFF"
-        android:pathData="M62,64 L62,44 C62,42.9 62.9,42 64,42 L66,42 C67.1,42 68,42.9 68,44 L68,64 C68,65.1 67.1,66 66,66 L64,66 C62.9,66 62,65.1 62,64 Z" />
+        android:pathData="M60,64 L60,44 C60,43 61,42 62,42 L66,42 C67,42 68,43 68,44 L68,64 C68,65 67,66 66,66 L62,66 C61,66 60,65 60,64 Z" />
 
+    <!-- Bar 5 (smallest right) -->
     <path
         android:fillColor="#FFFFFF"
-        android:pathData="M72,58 L72,50 C72,48.9 72.9,48 74,48 L76,48 C77.1,48 78,48.9 78,50 L78,58 C78,59.1 77.1,60 76,60 L74,60 C72.9,60 72,59.1 72,58 Z" />
+        android:pathData="M72,58 L72,50 C72,49 73,48 74,48 L78,48 C79,48 80,49 80,50 L80,58 C80,59 79,60 78,60 L74,60 C73,60 72,59 72,58 Z" />
 
 </vector>
