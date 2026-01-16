@@ -4,8 +4,22 @@
     android:height="24dp"
     android:viewportWidth="24"
     android:viewportHeight="24">
-    <!-- Dashboard/view mode icon -->
     <path
         android:fillColor="#FFFFFF"
-        android:pathData="M3,13h8V3H3V13zM3,21h8v-6H3V21zM13,21h8V11h-8V21zM13,3v6h8V3H13z"/>
+        android:pathData="M4,5v13h17V5H4zM20,17H5V6h15V17z"/>
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M19,12H6v1h13V12z"/>
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M10,9H6v1h4V9z"/>
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M19,9h-7v1h7V9z"/>
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M13,15H6v1h7V15z"/>
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M19,15h-4v1h4V15z"/>
 </vector>

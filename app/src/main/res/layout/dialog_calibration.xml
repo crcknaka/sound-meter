@@ -4,62 +4,104 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="24dp"
-    android:background="@color/card_background">
+    android:background="@drawable/dialog_background">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <!-- Header with icon -->
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/calibration_title"
-        android:textColor="@color/text_primary"
-        android:textSize="20sp"
-        android:textStyle="bold" />
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingHorizontal="24dp"
+        android:paddingTop="24dp">
+
+        <ImageView
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@drawable/ic_calibration"
+            app:tint="@color/level_medium" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:text="@string/calibration_title"
+            android:textColor="@color/text_primary"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
+        android:paddingHorizontal="24dp"
         android:text="@string/calibration_description"
         android:textColor="@color/text_secondary"
-        android:textSize="14sp" />
+        android:textSize="14sp"
+        android:lineSpacingExtra="4dp" />
 
-    <!-- Current offset value -->
-    <TextView
-        android:id="@+id/offsetValueText"
+    <!-- Current offset value with badge -->
+    <com.google.android.material.card.MaterialCardView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="24dp"
-        android:textColor="@color/primary"
-        android:textSize="32sp"
-        android:textStyle="bold" />
+        android:layout_marginTop="28dp"
+        app:cardBackgroundColor="@color/surface"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="0dp"
+        app:strokeWidth="0dp">
+
+        <TextView
+            android:id="@+id/offsetValueText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="28dp"
+            android:paddingVertical="12dp"
+            android:textColor="@color/level_medium"
+            android:textSize="36sp"
+            android:textStyle="bold" />
+
+    </com.google.android.material.card.MaterialCardView>
 
     <!-- Slider for calibration -->
     <com.google.android.material.slider.Slider
         android:id="@+id/calibrationSlider"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginHorizontal="16dp"
         android:valueFrom="-20"
         android:valueTo="20"
-        android:stepSize="0.5"
+        android:stepSize="1"
         android:value="0"
-        app:trackColorActive="@color/primary"
+        app:trackColorActive="@color/level_medium"
         app:trackColorInactive="@color/card_stroke"
-        app:thumbColor="@color/primary"
-        app:tickVisible="false" />
+        app:thumbColor="@color/level_medium"
+        app:haloColor="#33FFD600"
+        app:tickVisible="false"
+        app:trackHeight="8dp" />
 
     <!-- Labels -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:paddingHorizontal="24dp">
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="-20 dB"
+            android:textColor="@color/text_secondary"
+            android:textSize="12sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0"
             android:textColor="@color/text_secondary"
             android:textSize="12sp" />
 
@@ -77,19 +119,27 @@
     <!-- Reset button -->
     <com.google.android.material.button.MaterialButton
         android:id="@+id/resetCalibrationButton"
-        style="@style/Widget.Material3.Button.TextButton"
+        style="@style/Widget.Material3.Button.OutlinedButton"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:layout_gravity="center"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:text="@string/calibration_reset"
-        android:textColor="@color/text_secondary" />
+        android:textColor="@color/text_secondary"
+        android:textSize="13sp"
+        app:strokeColor="@color/card_stroke"
+        app:cornerRadius="20dp"
+        app:icon="@drawable/ic_reset"
+        app:iconTint="@color/text_secondary"
+        app:iconSize="18dp" />
 
     <!-- Action buttons -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="24dp"
+        android:paddingHorizontal="16dp"
+        android:paddingBottom="20dp"
         android:gravity="end"
         android:orientation="horizontal">
 
@@ -97,18 +147,23 @@
             android:id="@+id/cancelButton"
             style="@style/Widget.Material3.Button.TextButton"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             android:text="@string/calibration_cancel"
-            android:textColor="@color/text_secondary" />
+            android:textColor="@color/text_secondary"
+            app:cornerRadius="12dp" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/saveButton"
             style="@style/Widget.Material3.Button"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             android:layout_marginStart="8dp"
             android:text="@string/calibration_save"
-            app:backgroundTint="@color/primary" />
+            android:textColor="@color/white"
+            app:backgroundTint="@color/level_medium"
+            app:cornerRadius="12dp"
+            app:icon="@drawable/ic_check"
+            app:iconTint="@color/white" />
 
     </LinearLayout>
 

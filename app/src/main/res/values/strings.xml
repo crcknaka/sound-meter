@@ -26,10 +26,15 @@
 
     <!-- View Modes -->
     <string name="view_mode">View Mode</string>
+    <string name="view_mode_description">Choose how to display the sound level</string>
     <string name="view_digital">Digital</string>
+    <string name="view_digital_desc">Large numbers with min/avg/max stats</string>
     <string name="view_speedometer">Speedometer</string>
+    <string name="view_speedometer_desc">Classic gauge with animated needle</string>
     <string name="view_vu_meter">VU Meter</string>
+    <string name="view_vu_meter_desc">Professional audio level bar</string>
     <string name="view_circular">Circular Rings</string>
+    <string name="view_circular_desc">Modern concentric ring display</string>
 
     <!-- Settings -->
     <string name="settings">Settings</string>

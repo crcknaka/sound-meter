@@ -12,9 +12,11 @@ import android.view.HapticFeedbackConstants
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
-import android.widget.PopupMenu
+import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import kotlin.math.abs
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
@@ -125,48 +127,100 @@ class MainActivity : AppCompatActivity() {
         setupSwipeGesture()
     }
 
+    @Suppress("UNUSED_PARAMETER")
     private fun showSettingsMenu(anchor: View) {
-        val popup = PopupMenu(this, anchor)
-        popup.menuInflater.inflate(R.menu.menu_settings, popup.menu)
+        val bottomSheet = BottomSheetDialog(this, R.style.BottomSheetDialog)
+        val sheetView = LayoutInflater.from(this).inflate(R.layout.bottom_sheet_settings, null)
+        bottomSheet.setContentView(sheetView)
 
-        popup.setOnMenuItemClickListener { item ->
-            when (item.itemId) {
-                R.id.menu_view_mode -> {
-                    showViewModeDialog()
-                    true
-                }
-                R.id.menu_calibration -> {
-                    showCalibrationDialog()
-                    true
-                }
-                R.id.menu_privacy_policy -> {
-                    startActivity(Intent(this, PrivacyPolicyActivity::class.java))
-                    true
-                }
-                else -> false
-            }
-        }
-
-        popup.show()
-    }
-
-    private fun showViewModeDialog() {
-        val viewModes = arrayOf(
+        // Update current view mode text
+        val viewModeNames = arrayOf(
             getString(R.string.view_digital),
             getString(R.string.view_speedometer),
             getString(R.string.view_vu_meter),
             getString(R.string.view_circular)
         )
+        sheetView.findViewById<TextView>(R.id.currentViewModeText).text = viewModeNames[currentViewMode]
 
-        AlertDialog.Builder(this, R.style.CalibrationDialog)
-            .setTitle(R.string.view_mode)
-            .setSingleChoiceItems(viewModes, currentViewMode) { dialog, which ->
-                currentViewMode = which
+        // Update current calibration text
+        val offset = viewModel.getCalibrationOffset().toInt()
+        val sign = if (offset >= 0) "+" else ""
+        sheetView.findViewById<TextView>(R.id.currentCalibrationText).text = "Offset: ${sign}${offset} dB"
+
+        // View Mode click
+        sheetView.findViewById<View>(R.id.itemViewMode).setOnClickListener { view ->
+            view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY)
+            bottomSheet.dismiss()
+            showViewModeDialog()
+        }
+
+        // Calibration click
+        sheetView.findViewById<View>(R.id.itemCalibration).setOnClickListener { view ->
+            view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY)
+            bottomSheet.dismiss()
+            showCalibrationDialog()
+        }
+
+        // Privacy Policy click
+        sheetView.findViewById<View>(R.id.itemPrivacyPolicy).setOnClickListener { view ->
+            view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY)
+            bottomSheet.dismiss()
+            startActivity(Intent(this, PrivacyPolicyActivity::class.java))
+        }
+
+        bottomSheet.show()
+    }
+
+    private fun showViewModeDialog() {
+        val dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_view_mode, null)
+
+        val dialog = AlertDialog.Builder(this, R.style.CalibrationDialog)
+            .setView(dialogView)
+            .create()
+
+        // Get all option views and their check/uncheck icons
+        val options = listOf(
+            Triple(dialogView.findViewById<View>(R.id.optionDigital),
+                   dialogView.findViewById<ImageView>(R.id.checkDigital),
+                   dialogView.findViewById<ImageView>(R.id.uncheckDigital)),
+            Triple(dialogView.findViewById<View>(R.id.optionSpeedometer),
+                   dialogView.findViewById<ImageView>(R.id.checkSpeedometer),
+                   dialogView.findViewById<ImageView>(R.id.uncheckSpeedometer)),
+            Triple(dialogView.findViewById<View>(R.id.optionVuMeter),
+                   dialogView.findViewById<ImageView>(R.id.checkVuMeter),
+                   dialogView.findViewById<ImageView>(R.id.uncheckVuMeter)),
+            Triple(dialogView.findViewById<View>(R.id.optionCircular),
+                   dialogView.findViewById<ImageView>(R.id.checkCircular),
+                   dialogView.findViewById<ImageView>(R.id.uncheckCircular))
+        )
+
+        // Update UI to show current selection
+        fun updateSelection(selectedIndex: Int) {
+            options.forEachIndexed { index, (_, checkIcon, uncheckIcon) ->
+                if (index == selectedIndex) {
+                    checkIcon.visibility = View.VISIBLE
+                    uncheckIcon.visibility = View.GONE
+                } else {
+                    checkIcon.visibility = View.GONE
+                    uncheckIcon.visibility = View.VISIBLE
+                }
+            }
+        }
+
+        updateSelection(currentViewMode)
+
+        // Set click listeners
+        options.forEachIndexed { index, (optionView, _, _) ->
+            optionView.setOnClickListener { view ->
+                view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY)
+                currentViewMode = index
                 updateViewMode()
                 saveViewMode()
                 dialog.dismiss()
             }
-            .show()
+        }
+
+        dialog.show()
     }
 
     private fun setupSwipeGesture() {
@@ -304,15 +358,23 @@ class MainActivity : AppCompatActivity() {
         val dialogBinding = DialogCalibrationBinding.inflate(LayoutInflater.from(this))
 
         val currentOffset = viewModel.getCalibrationOffset().toInt().toFloat()
+        var lastSliderValue = currentOffset.toInt()
         dialogBinding.calibrationSlider.value = currentOffset
         dialogBinding.calibrationSlider.stepSize = 1f
         updateCalibrationDialogText(dialogBinding, currentOffset.toInt())
 
-        dialogBinding.calibrationSlider.addOnChangeListener { _, value, _ ->
-            updateCalibrationDialogText(dialogBinding, value.toInt())
+        dialogBinding.calibrationSlider.addOnChangeListener { slider, value, fromUser ->
+            val intValue = value.toInt()
+            updateCalibrationDialogText(dialogBinding, intValue)
+            // Haptic feedback when value changes
+            if (fromUser && intValue != lastSliderValue) {
+                slider.performHapticFeedback(HapticFeedbackConstants.CLOCK_TICK)
+                lastSliderValue = intValue
+            }
         }
 
-        dialogBinding.resetCalibrationButton.setOnClickListener {
+        dialogBinding.resetCalibrationButton.setOnClickListener { view ->
+            view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY)
             dialogBinding.calibrationSlider.value = 0f
         }
 
