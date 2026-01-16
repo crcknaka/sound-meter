@@ -24,11 +24,21 @@
     <string name="permission_denied">Microphone permission is required to measure sound levels</string>
     <string name="permission_rationale">This app needs microphone access to measure the sound level around you</string>
 
+    <!-- View Modes -->
+    <string name="view_mode">View Mode</string>
+    <string name="view_digital">Digital</string>
+    <string name="view_speedometer">Speedometer</string>
+    <string name="view_vu_meter">VU Meter</string>
+    <string name="view_circular">Circular Rings</string>
+
+    <!-- Settings -->
+    <string name="settings">Settings</string>
+
     <!-- Calibration -->
     <string name="calibration">Calibration</string>
     <string name="calibration_title">Microphone Calibration</string>
     <string name="calibration_description">Adjust the offset to match a reference sound meter. Use a known reference sound source for best results.</string>
-    <string name="calibration_offset">Offset: %+.1f dB</string>
+    <string name="calibration_offset">Offset: %+d dB</string>
     <string name="calibration_reset">Reset to default</string>
     <string name="calibration_save">Save</string>
     <string name="calibration_cancel">Cancel</string>

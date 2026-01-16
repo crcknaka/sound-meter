@@ -41,197 +41,281 @@
                 android:layout_height="wrap_content"
                 android:text="@string/app_subtitle"
                 android:textColor="@color/text_secondary"
-                android:textSize="12sp" />
+                android:textSize="14sp" />
 
         </LinearLayout>
 
         <ImageButton
-            android:id="@+id/calibrationButton"
+            android:id="@+id/settingsButton"
             android:layout_width="44dp"
             android:layout_height="44dp"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:contentDescription="@string/calibration"
-            android:src="@drawable/ic_calibration"
+            android:contentDescription="@string/settings"
+            android:src="@drawable/ic_settings"
             app:tint="@color/text_secondary" />
 
     </LinearLayout>
 
-    <!-- Main dB Display -->
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/mainCard"
-        android:layout_width="0dp"
+    <!-- Calibration Indicator (shows during vertical swipe) -->
+    <TextView
+        android:id="@+id/calibrationIndicator"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:alpha="0"
+        android:background="@drawable/level_badge_background"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="10dp"
+        android:text="0.0 dB"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@id/displayContainer"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/topBar" />
+
+    <!-- Main Display Container (switches between views) -->
+    <FrameLayout
+        android:id="@+id/displayContainer"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_marginHorizontal="20dp"
         android:layout_marginTop="16dp"
-        app:cardBackgroundColor="@color/card_background"
-        app:cardCornerRadius="24dp"
-        app:cardElevation="8dp"
+        app:layout_constraintBottom_toTopOf="@id/graphCard"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/topBar">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <!-- Digital View (default) -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/digitalCard"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="24dp">
+            android:layout_height="match_parent"
+            app:cardBackgroundColor="@color/card_background"
+            app:cardCornerRadius="24dp"
+            app:cardElevation="8dp">
 
-            <!-- Current dB Value -->
-            <TextView
-                android:id="@+id/decibelText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="0"
-                android:textColor="@color/decibel_text"
-                android:textSize="72sp"
-                android:textStyle="bold"
-                android:fontFamily="sans-serif-light"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="65" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="24dp">
 
-            <!-- Unit Label -->
-            <TextView
-                android:id="@+id/unitText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:layout_marginTop="16dp"
-                android:text="@string/decibel_unit"
-                android:textColor="@color/text_secondary"
-                android:textSize="24sp"
-                app:layout_constraintStart_toEndOf="@id/decibelText"
-                app:layout_constraintTop_toTopOf="@id/decibelText" />
-
-            <!-- Level Indicator -->
-            <TextView
-                android:id="@+id/levelIndicator"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:paddingHorizontal="16dp"
-                android:paddingVertical="4dp"
-                android:text="@string/level_quiet"
-                android:textColor="@color/white"
-                android:textSize="12sp"
-                android:textAllCaps="true"
-                android:letterSpacing="0.1"
-                android:background="@drawable/level_badge_background"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/decibelText" />
-
-            <!-- Stats on the right -->
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:gravity="end"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent">
-
-                <!-- MIN -->
-                <LinearLayout
+                <!-- Current dB Value -->
+                <TextView
+                    android:id="@+id/decibelText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:text="0"
+                    android:textColor="@color/decibel_text"
+                    android:textSize="96sp"
+                    android:textStyle="bold"
+                    android:fontFamily="sans-serif-light"
+                    app:layout_constraintBottom_toTopOf="@id/levelIndicator"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_chainStyle="packed"
+                    tools:text="65" />
+
+                <!-- Unit Label -->
+                <TextView
+                    android:id="@+id/unitText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/decibel_unit"
+                    android:textColor="@color/text_secondary"
+                    android:textSize="28sp"
+                    app:layout_constraintStart_toEndOf="@id/decibelText"
+                    app:layout_constraintTop_toTopOf="@id/decibelText"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginTop="24dp" />
+
+                <!-- Level Indicator -->
+                <TextView
+                    android:id="@+id/levelIndicator"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:paddingHorizontal="24dp"
+                    android:paddingVertical="8dp"
+                    android:text="@string/level_quiet"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    android:textAllCaps="true"
+                    android:letterSpacing="0.1"
+                    android:background="@drawable/level_badge_background"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/decibelText"
+                    app:layout_constraintBottom_toTopOf="@id/statsLayout" />
+
+                <!-- Stats Row -->
+                <LinearLayout
+                    android:id="@+id/statsLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
                     android:orientation="horizontal"
-                    android:gravity="center_vertical">
+                    android:gravity="center"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/levelIndicator">
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <!-- MIN -->
+                    <LinearLayout
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="@string/min_label"
-                        android:textColor="@color/text_secondary"
-                        android:textSize="11sp"
-                        android:layout_marginEnd="8dp" />
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:gravity="center">
 
-                    <TextView
-                        android:id="@+id/minText"
-                        android:layout_width="48dp"
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/min_label"
+                            android:textColor="@color/text_secondary"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/minText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="--"
+                            android:textColor="@color/level_low"
+                            android:textSize="28sp"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+                    <!-- AVG -->
+                    <LinearLayout
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="--"
-                        android:textColor="@color/level_low"
-                        android:textSize="18sp"
-                        android:textStyle="bold"
-                        android:gravity="end" />
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:gravity="center">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/avg_label"
+                            android:textColor="@color/text_secondary"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/avgText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="--"
+                            android:textColor="@color/level_medium"
+                            android:textSize="28sp"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+                    <!-- MAX -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:gravity="center">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/max_label"
+                            android:textColor="@color/text_secondary"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/maxText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="--"
+                            android:textColor="@color/level_high"
+                            android:textSize="28sp"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
 
                 </LinearLayout>
 
-                <!-- AVG -->
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical"
-                    android:layout_marginTop="4dp">
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/avg_label"
-                        android:textColor="@color/text_secondary"
-                        android:textSize="11sp"
-                        android:layout_marginEnd="8dp" />
+        </com.google.android.material.card.MaterialCardView>
 
-                    <TextView
-                        android:id="@+id/avgText"
-                        android:layout_width="48dp"
-                        android:layout_height="wrap_content"
-                        android:text="--"
-                        android:textColor="@color/level_medium"
-                        android:textSize="18sp"
-                        android:textStyle="bold"
-                        android:gravity="end" />
+        <!-- Speedometer View -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/speedometerCard"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            app:cardBackgroundColor="@color/card_background"
+            app:cardCornerRadius="24dp"
+            app:cardElevation="8dp">
 
-                </LinearLayout>
+            <com.soundmeter.app.SpeedometerView
+                android:id="@+id/speedometerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="16dp" />
 
-                <!-- MAX -->
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical"
-                    android:layout_marginTop="4dp">
+        </com.google.android.material.card.MaterialCardView>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/max_label"
-                        android:textColor="@color/text_secondary"
-                        android:textSize="11sp"
-                        android:layout_marginEnd="8dp" />
+        <!-- VU Meter View -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/vuMeterCard"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            app:cardBackgroundColor="@color/card_background"
+            app:cardCornerRadius="24dp"
+            app:cardElevation="8dp">
 
-                    <TextView
-                        android:id="@+id/maxText"
-                        android:layout_width="48dp"
-                        android:layout_height="wrap_content"
-                        android:text="--"
-                        android:textColor="@color/level_high"
-                        android:textSize="18sp"
-                        android:textStyle="bold"
-                        android:gravity="end" />
+            <com.soundmeter.app.VuMeterView
+                android:id="@+id/vuMeterView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="16dp" />
 
-                </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
 
-            </LinearLayout>
+        <!-- Circular Gauge View -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/circularCard"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            app:cardBackgroundColor="@color/card_background"
+            app:cardCornerRadius="24dp"
+            app:cardElevation="8dp">
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            <com.soundmeter.app.CircularGaugeView
+                android:id="@+id/circularGaugeView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="16dp" />
 
-    </com.google.android.material.card.MaterialCardView>
+        </com.google.android.material.card.MaterialCardView>
 
-    <!-- Real-time Graph -->
+    </FrameLayout>
+
+    <!-- Real-time Graph (1/3 of screen) -->
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/graphCard"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="12dp"
         app:cardBackgroundColor="@color/card_background"
         app:cardCornerRadius="24dp"
         app:cardElevation="8dp"
         app:layout_constraintBottom_toTopOf="@id/controlsContainer"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/mainCard">
+        app:layout_constraintHeight_percent="0.28">
 
         <com.soundmeter.app.SoundWaveView
             android:id="@+id/soundWaveView"
@@ -246,8 +330,8 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="24dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="20dp"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

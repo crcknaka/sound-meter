@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/menu_view_mode"
+        android:title="@string/view_mode" />
+
+    <item
+        android:id="@+id/menu_calibration"
+        android:title="@string/calibration" />
+
+    <item
+        android:id="@+id/menu_privacy_policy"
+        android:title="@string/privacy_policy" />
+
+</menu>

@@ -37,7 +37,7 @@ class SoundWaveView @JvmOverloads constructor(
     }
 
     private val textPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        textSize = 26f
+        textSize = 32f
         color = Color.parseColor("#555555")
     }
 
@@ -48,7 +48,7 @@ class SoundWaveView @JvmOverloads constructor(
     }
 
     private val minMaxTextPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        textSize = 22f
+        textSize = 28f
         typeface = Typeface.DEFAULT_BOLD
     }
 
@@ -66,7 +66,11 @@ class SoundWaveView @JvmOverloads constructor(
     private val colorRed = Color.parseColor("#FF1744")
 
     private val minDbRange = 20f
-    private val maxDbRange = 120f
+    private val maxDbRange = 100f
+
+    // Grid settings
+    private val dbLevels = intArrayOf(20, 40, 60, 80, 100)
+    private val verticalGridCount = 10
 
     private var cachedGradient: LinearGradient? = null
     private var lastColor = 0
@@ -85,12 +89,21 @@ class SoundWaveView @JvmOverloads constructor(
     }
 
     private fun drawGrid(canvas: Canvas, w: Float, h: Float, padding: Float) {
+        val graphWidth = w - padding - 10
         val graphHeight = h - padding * 2
 
-        for (db in intArrayOf(30, 50, 70, 90, 110)) {
+        // Draw horizontal lines for dB levels
+        for (db in dbLevels) {
             val y = padding + graphHeight * (1 - (db - minDbRange) / (maxDbRange - minDbRange))
             canvas.drawLine(padding, y, w - 10, y, gridPaint)
             canvas.drawText("$db", 6f, y + 7f, textPaint)
+        }
+
+        // Draw vertical lines to create grid rectangles
+        val stepX = graphWidth / verticalGridCount
+        for (i in 0..verticalGridCount) {
+            val x = padding + i * stepX
+            canvas.drawLine(x, padding, x, h - padding, gridPaint)
         }
     }
 
@@ -178,9 +191,9 @@ class SoundWaveView @JvmOverloads constructor(
 
     private fun getColorForDb(db: Float): Int {
         return when {
-            db < 50 -> colorGreen
-            db < 70 -> colorYellow
-            db < 85 -> colorOrange
+            db < 40 -> colorGreen
+            db < 60 -> colorYellow
+            db < 80 -> colorOrange
             else -> colorRed
         }
     }
