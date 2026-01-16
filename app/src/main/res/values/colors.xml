@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Primary Colors -->
+    <color name="primary">#7C4DFF</color>
+    <color name="primary_variant">#651FFF</color>
+    <color name="secondary">#00E5FF</color>
+
+    <!-- Background Colors -->
+    <color name="background">#0D0D0D</color>
+    <color name="card_background">#1A1A1A</color>
+    <color name="card_stroke">#2A2A2A</color>
+    <color name="surface">#242424</color>
+
+    <!-- Text Colors -->
+    <color name="text_primary">#FFFFFF</color>
+    <color name="text_secondary">#888888</color>
+    <color name="decibel_text">#FFFFFF</color>
+
+    <!-- Level Indicator Colors -->
+    <color name="level_low">#00E676</color>
+    <color name="level_medium">#FFD600</color>
+    <color name="level_high">#FF9100</color>
+    <color name="level_danger">#FF1744</color>
+
+    <!-- Utility Colors -->
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+
+    <!-- Launcher Icon -->
+    <color name="ic_launcher_background">#7C4DFF</color>
+</resources>
