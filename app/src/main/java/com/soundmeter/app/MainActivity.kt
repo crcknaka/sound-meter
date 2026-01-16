@@ -5,6 +5,11 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
+import android.os.Build
+import android.os.VibrationEffect
+import android.os.Vibrator
+import android.os.VibratorManager
+import android.view.HapticFeedbackConstants
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -41,10 +46,14 @@ class MainActivity : AppCompatActivity() {
 
         setupClickListeners()
         observeState()
+
+        // Auto-start measuring on app launch
+        checkPermissionAndStart()
     }
 
     private fun setupClickListeners() {
-        binding.startStopButton.setOnClickListener {
+        binding.startStopButton.setOnClickListener { view ->
+            performHapticFeedback(view)
             if (viewModel.state.value.isRunning) {
                 viewModel.stopMeasuring()
                 updateButtonState(false)
@@ -53,14 +62,21 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        binding.resetButton.setOnClickListener {
+        binding.resetButton.setOnClickListener { view ->
+            performHapticFeedback(view)
             viewModel.reset()
+            binding.soundWaveView.reset()
             updateStatsDisplay(SoundMeterState())
         }
 
-        binding.proButton.setOnClickListener {
+        binding.proButton.setOnClickListener { view ->
+            performHapticFeedback(view)
             startActivity(Intent(this, ProFeaturesActivity::class.java))
         }
+    }
+
+    private fun performHapticFeedback(view: android.view.View) {
+        view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY)
     }
 
     private fun checkPermissionAndStart() {
@@ -92,6 +108,11 @@ class MainActivity : AppCompatActivity() {
                 updateDecibelDisplay(state.currentDb)
                 updateStatsDisplay(state)
                 updateLevelIndicator(state.currentDb)
+
+                // Feed data to the graph
+                if (state.isRunning && state.currentDb > 0) {
+                    binding.soundWaveView.addReading(state.currentDb.toFloat())
+                }
             }
         }
     }
@@ -150,10 +171,15 @@ class MainActivity : AppCompatActivity() {
         if (isRunning) {
             binding.startStopButton.text = getString(R.string.stop)
             binding.startStopButton.setIconResource(R.drawable.ic_stop)
+            binding.startStopButton.backgroundTintList = ContextCompat.getColorStateList(this, R.color.level_danger)
         } else {
             binding.startStopButton.text = getString(R.string.start)
             binding.startStopButton.setIconResource(R.drawable.ic_play)
+            binding.startStopButton.backgroundTintList = ContextCompat.getColorStateList(this, R.color.primary)
         }
+        // Keep text and icon white
+        binding.startStopButton.setTextColor(ContextCompat.getColor(this, R.color.white))
+        binding.startStopButton.iconTint = ContextCompat.getColorStateList(this, R.color.white)
     }
 
     override fun onStop() {
