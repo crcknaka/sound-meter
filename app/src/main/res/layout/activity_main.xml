@@ -353,6 +353,26 @@
 
         </com.google.android.material.card.MaterialCardView>
 
+        <!-- Oscilloscope View -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/oscilloscopeCard"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            app:cardBackgroundColor="#0A1F14"
+            app:cardCornerRadius="28dp"
+            app:cardElevation="0dp"
+            app:strokeWidth="1dp"
+            app:strokeColor="#22C55E">
+
+            <com.soundmeter.app.OscilloscopeView
+                android:id="@+id/oscilloscopeView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="20dp" />
+
+        </com.google.android.material.card.MaterialCardView>
+
     </FrameLayout>
 
     <!-- Small spacer between display and graph -->

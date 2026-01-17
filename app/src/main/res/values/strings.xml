@@ -35,6 +35,8 @@
     <string name="view_vu_meter_desc">Professional audio level bar</string>
     <string name="view_circular">Circular Rings</string>
     <string name="view_circular_desc">Modern concentric ring display</string>
+    <string name="view_oscilloscope">Oscilloscope</string>
+    <string name="view_oscilloscope_desc">Scientific waveform display with grid</string>
 
     <!-- Settings -->
     <string name="settings">Settings</string>

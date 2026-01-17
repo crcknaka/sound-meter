@@ -31,9 +31,9 @@ class MainActivity : AppCompatActivity() {
     private val viewModel: SoundMeterViewModel by viewModels()
     private lateinit var gestureDetector: GestureDetector
 
-    // View modes: 0 = digital, 1 = speedometer, 2 = VU meter, 3 = circular
+    // View modes: 0 = digital, 1 = speedometer, 2 = VU meter, 3 = circular, 4 = oscilloscope
     private var currentViewMode = 0
-    private val totalViewModes = 4
+    private val totalViewModes = 5
 
     // Calibration gesture
     private var isCalibrating = false
@@ -114,6 +114,7 @@ class MainActivity : AppCompatActivity() {
             binding.speedometerView.reset()
             binding.vuMeterView.reset()
             binding.circularGaugeView.reset()
+            binding.oscilloscopeView.reset()
             updateStatsDisplay(SoundMeterState())
         }
 
@@ -136,7 +137,8 @@ class MainActivity : AppCompatActivity() {
             getString(R.string.view_digital),
             getString(R.string.view_speedometer),
             getString(R.string.view_vu_meter),
-            getString(R.string.view_circular)
+            getString(R.string.view_circular),
+            getString(R.string.view_oscilloscope)
         )
         sheetView.findViewById<TextView>(R.id.currentViewModeText).text = viewModeNames[currentViewMode]
 
@@ -189,7 +191,10 @@ class MainActivity : AppCompatActivity() {
                    dialogView.findViewById<ImageView>(R.id.uncheckVuMeter)),
             Triple(dialogView.findViewById<View>(R.id.optionCircular),
                    dialogView.findViewById<ImageView>(R.id.checkCircular),
-                   dialogView.findViewById<ImageView>(R.id.uncheckCircular))
+                   dialogView.findViewById<ImageView>(R.id.uncheckCircular)),
+            Triple(dialogView.findViewById<View>(R.id.optionOscilloscope),
+                   dialogView.findViewById<ImageView>(R.id.checkOscilloscope),
+                   dialogView.findViewById<ImageView>(R.id.uncheckOscilloscope))
         )
 
         // Update UI to show current selection
@@ -349,6 +354,7 @@ class MainActivity : AppCompatActivity() {
         binding.speedometerCard.visibility = if (currentViewMode == 1) View.VISIBLE else View.GONE
         binding.vuMeterCard.visibility = if (currentViewMode == 2) View.VISIBLE else View.GONE
         binding.circularCard.visibility = if (currentViewMode == 3) View.VISIBLE else View.GONE
+        binding.oscilloscopeCard.visibility = if (currentViewMode == 4) View.VISIBLE else View.GONE
     }
 
     private fun showCalibrationDialog() {
@@ -440,6 +446,7 @@ class MainActivity : AppCompatActivity() {
                     binding.speedometerView.updateDb(db)
                     binding.vuMeterView.updateDb(db)
                     binding.circularGaugeView.updateDb(db)
+                    binding.oscilloscopeView.updateDb(db)
                 }
             }
         }
