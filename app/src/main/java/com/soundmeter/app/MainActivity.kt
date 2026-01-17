@@ -3,10 +3,8 @@ package com.soundmeter.app
 import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
-import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.content.Intent
-import android.animation.ObjectAnimator
 import android.view.GestureDetector
 import android.view.HapticFeedbackConstants
 import android.view.LayoutInflater
@@ -314,8 +312,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showCalibrationIndicator() {
-        hideIndicatorRunnable?.let { binding.calibrationIndicator.removeCallbacks(it) }
-        binding.calibrationIndicator.animate()
+        hideIndicatorRunnable?.let { binding.calibrationIndicatorCard.removeCallbacks(it) }
+        binding.calibrationIndicatorCard.animate()
             .alpha(1f)
             .setDuration(150)
             .start()
@@ -325,26 +323,25 @@ class MainActivity : AppCompatActivity() {
         val sign = if (offset >= 0) "+" else ""
         binding.calibrationIndicator.text = "${sign}${offset} dB"
 
-        // Update background color based on offset
-        val color = when {
-            offset < -5 -> ContextCompat.getColor(this, R.color.level_low)
-            offset > 5 -> ContextCompat.getColor(this, R.color.level_high)
-            else -> ContextCompat.getColor(this, R.color.level_medium)
+        // Update card background color based on offset
+        val colorRes = when {
+            offset < -5 -> R.color.level_low
+            offset > 5 -> R.color.level_high
+            else -> R.color.level_medium
         }
-        val background = binding.calibrationIndicator.background as? GradientDrawable
-            ?: GradientDrawable().apply { cornerRadius = 12f * resources.displayMetrics.density }
-        background.setColor(color)
-        binding.calibrationIndicator.background = background
+        binding.calibrationIndicatorCard.setCardBackgroundColor(
+            ContextCompat.getColor(this, colorRes)
+        )
     }
 
     private fun hideCalibrationIndicator() {
         hideIndicatorRunnable = Runnable {
-            binding.calibrationIndicator.animate()
+            binding.calibrationIndicatorCard.animate()
                 .alpha(0f)
                 .setDuration(300)
                 .start()
         }
-        binding.calibrationIndicator.postDelayed(hideIndicatorRunnable, 800)
+        binding.calibrationIndicatorCard.postDelayed(hideIndicatorRunnable, 800)
     }
 
     private fun updateViewMode() {
@@ -489,13 +486,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.levelIndicator.text = text
-
-        val background = binding.levelIndicator.background as? GradientDrawable
-            ?: GradientDrawable().apply {
-                cornerRadius = 12f * resources.displayMetrics.density
-            }
-        background.setColor(ContextCompat.getColor(this, colorRes))
-        binding.levelIndicator.background = background
+        binding.levelIndicatorCard.setCardBackgroundColor(ContextCompat.getColor(this, colorRes))
     }
 
     private fun updateButtonState(isRunning: Boolean) {

@@ -52,51 +52,56 @@ class SpeedometerView @JvmOverloads constructor(
     private val tickPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         style = Paint.Style.STROKE
         strokeWidth = 2f
-        color = Color.parseColor("#444444")
+        color = Color.parseColor("#3F3F46")
     }
 
     private val textPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        textSize = 40f
-        color = Color.parseColor("#888888")
+        textSize = 44f
+        color = Color.parseColor("#71717A")
         textAlign = Paint.Align.CENTER
     }
 
     private val dbTextPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        textSize = 120f
+        textSize = 160f
         color = Color.WHITE
         textAlign = Paint.Align.CENTER
-        typeface = Typeface.create(Typeface.DEFAULT, Typeface.BOLD)
+        typeface = Typeface.create("sans-serif-light", Typeface.NORMAL)
     }
 
     private val unitTextPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        textSize = 40f
-        color = Color.parseColor("#888888")
+        textSize = 52f
+        color = Color.parseColor("#71717A")
         textAlign = Paint.Align.CENTER
     }
 
     private val levelTextPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        textSize = 44f
+        textAlign = Paint.Align.CENTER
+        letterSpacing = 0.08f
+    }
+
+    private val statsTextPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         textSize = 36f
+        color = Color.parseColor("#71717A")
         textAlign = Paint.Align.CENTER
         letterSpacing = 0.05f
     }
 
-    private val statsTextPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        textSize = 32f
-        color = Color.parseColor("#888888")
-        textAlign = Paint.Align.CENTER
-    }
-
     private val statsValuePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        textSize = 44f
+        textSize = 60f
         textAlign = Paint.Align.CENTER
-        typeface = Typeface.create(Typeface.DEFAULT, Typeface.BOLD)
+        typeface = Typeface.create("sans-serif-medium", Typeface.NORMAL)
     }
 
-    // Colors
-    private val colorGreen = Color.parseColor("#00E676")
-    private val colorYellow = Color.parseColor("#FFEA00")
-    private val colorOrange = Color.parseColor("#FF9100")
-    private val colorRed = Color.parseColor("#FF1744")
+    // Colors - Modern vibrant palette
+    private val colorGreen = Color.parseColor("#22C55E")
+    private val colorYellow = Color.parseColor("#EAB308")
+    private val colorOrange = Color.parseColor("#F97316")
+    private val colorRed = Color.parseColor("#EF4444")
+    private val colorBackground = Color.parseColor("#18181B")
+    private val colorSurface = Color.parseColor("#27272A")
+    private val colorTextSecondary = Color.parseColor("#A1A1AA")
+    private val colorTextTertiary = Color.parseColor("#71717A")
 
     private val minDbRange = 20f
     private val maxDbRange = 100f
@@ -125,7 +130,7 @@ class SpeedometerView @JvmOverloads constructor(
         )
 
         // Draw background arc
-        arcBackgroundPaint.color = Color.parseColor("#1A1A1A")
+        arcBackgroundPaint.color = colorBackground
         canvas.drawArc(arcRect, 180f, 180f, false, arcBackgroundPaint)
 
         // Draw colored arc segments
@@ -143,12 +148,12 @@ class SpeedometerView @JvmOverloads constructor(
         // Draw center circle
         val gradient = RadialGradient(
             centerX, centerY, 30f,
-            Color.parseColor("#3A3A3A"),
-            Color.parseColor("#1A1A1A"),
+            colorSurface,
+            colorBackground,
             Shader.TileMode.CLAMP
         )
         centerPaint.shader = gradient
-        canvas.drawCircle(centerX, centerY, 25f, centerPaint)
+        canvas.drawCircle(centerX, centerY, 22f, centerPaint)
 
         // Draw dB value
         dbTextPaint.color = getColorForDb(currentDb)

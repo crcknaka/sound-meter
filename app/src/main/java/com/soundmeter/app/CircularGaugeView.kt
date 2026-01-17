@@ -22,7 +22,7 @@ class CircularGaugeView @JvmOverloads constructor(
     // Paints
     private val ringBackgroundPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         style = Paint.Style.STROKE
-        color = Color.parseColor("#1A1A1A")
+        color = Color.parseColor("#18181B")
     }
 
     private val ringPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
@@ -31,41 +31,43 @@ class CircularGaugeView @JvmOverloads constructor(
     }
 
     private val dbTextPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        textSize = 140f
+        textSize = 170f
         color = Color.WHITE
         textAlign = Paint.Align.CENTER
-        typeface = Typeface.create(Typeface.DEFAULT, Typeface.BOLD)
+        typeface = Typeface.create("sans-serif-light", Typeface.NORMAL)
     }
 
     private val unitTextPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        textSize = 44f
-        color = Color.parseColor("#888888")
+        textSize = 56f
+        color = Color.parseColor("#71717A")
         textAlign = Paint.Align.CENTER
     }
 
     private val levelTextPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        textSize = 38f
+        textSize = 46f
+        textAlign = Paint.Align.CENTER
+        letterSpacing = 0.08f
+    }
+
+    private val statsLabelPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        textSize = 36f
+        color = Color.parseColor("#71717A")
         textAlign = Paint.Align.CENTER
         letterSpacing = 0.05f
     }
 
-    private val statsLabelPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        textSize = 28f
-        color = Color.parseColor("#666666")
-        textAlign = Paint.Align.CENTER
-    }
-
     private val statsValuePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        textSize = 42f
+        textSize = 56f
         textAlign = Paint.Align.CENTER
-        typeface = Typeface.create(Typeface.DEFAULT, Typeface.BOLD)
+        typeface = Typeface.create("sans-serif-medium", Typeface.NORMAL)
     }
 
-    // Colors
-    private val colorGreen = Color.parseColor("#00E676")
-    private val colorYellow = Color.parseColor("#FFEA00")
-    private val colorOrange = Color.parseColor("#FF9100")
-    private val colorRed = Color.parseColor("#FF1744")
+    // Colors - Modern vibrant palette
+    private val colorGreen = Color.parseColor("#22C55E")
+    private val colorYellow = Color.parseColor("#EAB308")
+    private val colorOrange = Color.parseColor("#F97316")
+    private val colorRed = Color.parseColor("#EF4444")
+    private val colorBackground = Color.parseColor("#18181B")
 
     private val minDbRange = 20f
     private val maxDbRange = 100f

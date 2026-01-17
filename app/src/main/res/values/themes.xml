@@ -1,30 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Main App Theme - Modern Dark -->
     <style name="Theme.SoundMeter" parent="Theme.Material3.Dark.NoActionBar">
         <item name="colorPrimary">@color/primary</item>
         <item name="colorPrimaryVariant">@color/primary_variant</item>
         <item name="colorSecondary">@color/secondary</item>
         <item name="android:colorBackground">@color/background</item>
         <item name="colorSurface">@color/surface</item>
+        <item name="colorOnSurface">@color/text_primary</item>
+        <item name="colorOnBackground">@color/text_primary</item>
         <item name="android:statusBarColor">@color/background</item>
         <item name="android:navigationBarColor">@color/background</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:windowLightNavigationBar">false</item>
+        <!-- Button styling -->
+        <item name="materialButtonStyle">@style/SoundMeter.Button</item>
+        <item name="materialButtonOutlinedStyle">@style/SoundMeter.Button.Outlined</item>
     </style>
 
     <style name="Theme.SoundMeter.Splash" parent="Theme.SoundMeter">
         <item name="android:windowBackground">@color/background</item>
     </style>
 
+    <!-- Button Styles -->
+    <style name="SoundMeter.Button" parent="Widget.Material3.Button">
+        <item name="android:textColor">@color/white</item>
+        <item name="cornerRadius">16dp</item>
+        <item name="android:letterSpacing">0.02</item>
+    </style>
+
+    <style name="SoundMeter.Button.Outlined" parent="Widget.Material3.Button.OutlinedButton">
+        <item name="strokeColor">@color/card_stroke</item>
+        <item name="strokeWidth">1.5dp</item>
+        <item name="cornerRadius">16dp</item>
+        <item name="android:letterSpacing">0.02</item>
+    </style>
+
+    <!-- Dialog Styles -->
     <style name="CalibrationDialog" parent="Theme.Material3.Dark.Dialog">
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:backgroundDimEnabled">true</item>
-        <item name="android:windowMinWidthMajor">90%</item>
-        <item name="android:windowMinWidthMinor">90%</item>
+        <item name="android:backgroundDimAmount">0.7</item>
+        <item name="android:windowMinWidthMajor">92%</item>
+        <item name="android:windowMinWidthMinor">92%</item>
+        <item name="android:windowAnimationStyle">@style/DialogAnimation</item>
     </style>
 
+    <style name="DialogAnimation">
+        <item name="android:windowEnterAnimation">@android:anim/fade_in</item>
+        <item name="android:windowExitAnimation">@android:anim/fade_out</item>
+    </style>
+
+    <!-- Bottom Sheet Styles -->
     <style name="BottomSheetDialog" parent="Theme.Material3.Dark.BottomSheetDialog">
         <item name="bottomSheetStyle">@style/BottomSheetStyle</item>
         <item name="android:windowIsFloating">false</item>
         <item name="android:windowSoftInputMode">adjustResize</item>
+        <item name="android:navigationBarColor">@color/background_elevated</item>
     </style>
 
     <style name="BottomSheetStyle" parent="Widget.Material3.BottomSheet">
@@ -33,9 +65,15 @@
     </style>
 
     <style name="BottomSheetShapeAppearance" parent="ShapeAppearance.Material3.Corner.ExtraLarge">
-        <item name="cornerSizeTopLeft">24dp</item>
-        <item name="cornerSizeTopRight">24dp</item>
+        <item name="cornerSizeTopLeft">28dp</item>
+        <item name="cornerSizeTopRight">28dp</item>
         <item name="cornerSizeBottomLeft">0dp</item>
         <item name="cornerSizeBottomRight">0dp</item>
+    </style>
+
+    <!-- Slider Style -->
+    <style name="SoundMeter.Slider" parent="Widget.Material3.Slider">
+        <item name="trackHeight">6dp</item>
+        <item name="thumbRadius">12dp</item>
     </style>
 </resources>

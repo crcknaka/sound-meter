@@ -1,31 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Primary Colors -->
-    <color name="primary">#7C4DFF</color>
-    <color name="primary_variant">#651FFF</color>
-    <color name="secondary">#00E5FF</color>
+    <!-- Primary Colors - Modern vibrant purple -->
+    <color name="primary">#8B5CF6</color>
+    <color name="primary_light">#A78BFA</color>
+    <color name="primary_variant">#7C3AED</color>
+    <color name="primary_dark">#6D28D9</color>
+    <color name="secondary">#06B6D4</color>
 
-    <!-- Background Colors -->
-    <color name="background">#0D0D0D</color>
-    <color name="card_background">#1A1A1A</color>
-    <color name="card_stroke">#2A2A2A</color>
-    <color name="surface">#242424</color>
+    <!-- Background Colors - Deep dark with subtle warmth -->
+    <color name="background">#09090B</color>
+    <color name="background_elevated">#18181B</color>
+    <color name="card_background">#18181B</color>
+    <color name="card_background_elevated">#27272A</color>
+    <color name="card_stroke">#3F3F46</color>
+    <color name="surface">#27272A</color>
+    <color name="surface_variant">#3F3F46</color>
 
-    <!-- Text Colors -->
-    <color name="text_primary">#FFFFFF</color>
-    <color name="text_secondary">#888888</color>
-    <color name="decibel_text">#FFFFFF</color>
+    <!-- Text Colors - Better hierarchy -->
+    <color name="text_primary">#FAFAFA</color>
+    <color name="text_secondary">#A1A1AA</color>
+    <color name="text_tertiary">#71717A</color>
+    <color name="decibel_text">#FAFAFA</color>
 
-    <!-- Level Indicator Colors -->
-    <color name="level_low">#00E676</color>
-    <color name="level_medium">#FFD600</color>
-    <color name="level_high">#FF9100</color>
-    <color name="level_danger">#FF1744</color>
+    <!-- Level Indicator Colors - Vibrant and modern -->
+    <color name="level_low">#22C55E</color>
+    <color name="level_low_light">#4ADE80</color>
+    <color name="level_medium">#EAB308</color>
+    <color name="level_medium_light">#FACC15</color>
+    <color name="level_high">#F97316</color>
+    <color name="level_high_light">#FB923C</color>
+    <color name="level_danger">#EF4444</color>
+    <color name="level_danger_light">#F87171</color>
 
     <!-- Utility Colors -->
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
+    <color name="divider">#27272A</color>
+
+    <!-- Overlay and shadow -->
+    <color name="overlay_dark">#80000000</color>
+    <color name="overlay_light">#40FFFFFF</color>
 
     <!-- Launcher Icon -->
-    <color name="ic_launcher_background">#7C4DFF</color>
+    <color name="ic_launcher_background">#8B5CF6</color>
 </resources>

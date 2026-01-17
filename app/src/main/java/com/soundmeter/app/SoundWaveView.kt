@@ -33,23 +33,23 @@ class SoundWaveView @JvmOverloads constructor(
     private val gridPaint = Paint().apply {
         style = Paint.Style.STROKE
         strokeWidth = 1f
-        color = Color.parseColor("#222222")
+        color = Color.parseColor("#27272A")
     }
 
     private val textPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        textSize = 32f
-        color = Color.parseColor("#555555")
+        textSize = 28f
+        color = Color.parseColor("#52525B")
     }
 
     private val minMaxPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         style = Paint.Style.STROKE
         strokeWidth = 1.5f
-        pathEffect = DashPathEffect(floatArrayOf(8f, 8f), 0f)
+        pathEffect = DashPathEffect(floatArrayOf(6f, 6f), 0f)
     }
 
     private val minMaxTextPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        textSize = 28f
-        typeface = Typeface.DEFAULT_BOLD
+        textSize = 24f
+        typeface = Typeface.create("sans-serif-medium", Typeface.NORMAL)
     }
 
     private val dotPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
@@ -59,11 +59,11 @@ class SoundWaveView @JvmOverloads constructor(
     private val wavePath = Path()
     private val fillPath = Path()
 
-    // Colors
-    private val colorGreen = Color.parseColor("#00E676")
-    private val colorYellow = Color.parseColor("#FFEA00")
-    private val colorOrange = Color.parseColor("#FF9100")
-    private val colorRed = Color.parseColor("#FF1744")
+    // Colors - Modern vibrant palette
+    private val colorGreen = Color.parseColor("#22C55E")
+    private val colorYellow = Color.parseColor("#EAB308")
+    private val colorOrange = Color.parseColor("#F97316")
+    private val colorRed = Color.parseColor("#EF4444")
 
     private val minDbRange = 20f
     private val maxDbRange = 100f

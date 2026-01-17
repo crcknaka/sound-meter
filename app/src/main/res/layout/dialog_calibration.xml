@@ -4,7 +4,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:background="@drawable/dialog_background">
+    android:background="@drawable/dialog_background"
+    android:paddingTop="28dp"
+    android:paddingBottom="24dp">
 
     <!-- Header with icon -->
     <LinearLayout
@@ -12,30 +14,40 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center_vertical"
-        android:paddingHorizontal="24dp"
-        android:paddingTop="24dp">
+        android:paddingHorizontal="24dp">
 
-        <ImageView
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:src="@drawable/ic_calibration"
-            app:tint="@color/level_medium" />
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            app:cardBackgroundColor="@color/level_medium"
+            app:cardCornerRadius="14dp"
+            app:cardElevation="0dp">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_calibration"
+                app:tint="@color/white" />
+
+        </com.google.android.material.card.MaterialCardView>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
+            android:layout_marginStart="16dp"
             android:text="@string/calibration_title"
             android:textColor="@color/text_primary"
             android:textSize="22sp"
-            android:textStyle="bold" />
+            android:fontFamily="sans-serif-medium"
+            android:letterSpacing="-0.02" />
 
     </LinearLayout>
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="16dp"
         android:paddingHorizontal="24dp"
         android:text="@string/calibration_description"
         android:textColor="@color/text_secondary"
@@ -47,21 +59,23 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="32dp"
         app:cardBackgroundColor="@color/surface"
-        app:cardCornerRadius="16dp"
+        app:cardCornerRadius="20dp"
         app:cardElevation="0dp"
-        app:strokeWidth="0dp">
+        app:strokeWidth="1dp"
+        app:strokeColor="@color/card_stroke">
 
         <TextView
             android:id="@+id/offsetValueText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingHorizontal="28dp"
-            android:paddingVertical="12dp"
+            android:paddingHorizontal="32dp"
+            android:paddingVertical="16dp"
             android:textColor="@color/level_medium"
-            android:textSize="36sp"
-            android:textStyle="bold" />
+            android:textSize="32sp"
+            android:fontFamily="sans-serif-medium"
+            android:letterSpacing="-0.02" />
 
     </com.google.android.material.card.MaterialCardView>
 
@@ -70,39 +84,40 @@
         android:id="@+id/calibrationSlider"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="28dp"
+        android:layout_marginHorizontal="20dp"
         android:valueFrom="-20"
         android:valueTo="20"
         android:stepSize="1"
         android:value="0"
         app:trackColorActive="@color/level_medium"
-        app:trackColorInactive="@color/card_stroke"
+        app:trackColorInactive="@color/surface_variant"
         app:thumbColor="@color/level_medium"
-        app:haloColor="#33FFD600"
+        app:haloColor="#40EAB308"
         app:tickVisible="false"
-        app:trackHeight="8dp" />
+        app:trackHeight="6dp" />
 
     <!-- Labels -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:paddingHorizontal="24dp">
+        android:paddingHorizontal="28dp"
+        android:layout_marginTop="4dp">
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="-20 dB"
-            android:textColor="@color/text_secondary"
+            android:textColor="@color/text_tertiary"
             android:textSize="12sp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="0"
-            android:textColor="@color/text_secondary"
+            android:textColor="@color/text_tertiary"
             android:textSize="12sp" />
 
         <TextView
@@ -111,7 +126,7 @@
             android:layout_weight="1"
             android:gravity="end"
             android:text="+20 dB"
-            android:textColor="@color/text_secondary"
+            android:textColor="@color/text_tertiary"
             android:textSize="12sp" />
 
     </LinearLayout>
@@ -121,14 +136,16 @@
         android:id="@+id/resetCalibrationButton"
         style="@style/Widget.Material3.Button.OutlinedButton"
         android:layout_width="wrap_content"
-        android:layout_height="40dp"
+        android:layout_height="44dp"
         android:layout_gravity="center"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="20dp"
         android:text="@string/calibration_reset"
         android:textColor="@color/text_secondary"
         android:textSize="13sp"
+        android:fontFamily="sans-serif-medium"
         app:strokeColor="@color/card_stroke"
-        app:cornerRadius="20dp"
+        app:strokeWidth="1dp"
+        app:cornerRadius="22dp"
         app:icon="@drawable/ic_reset"
         app:iconTint="@color/text_secondary"
         app:iconSize="18dp" />
@@ -137,9 +154,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:paddingHorizontal="16dp"
-        android:paddingBottom="20dp"
+        android:layout_marginTop="28dp"
+        android:paddingHorizontal="20dp"
         android:gravity="end"
         android:orientation="horizontal">
 
@@ -147,23 +163,26 @@
             android:id="@+id/cancelButton"
             style="@style/Widget.Material3.Button.TextButton"
             android:layout_width="wrap_content"
-            android:layout_height="48dp"
+            android:layout_height="52dp"
             android:text="@string/calibration_cancel"
             android:textColor="@color/text_secondary"
-            app:cornerRadius="12dp" />
+            android:fontFamily="sans-serif-medium"
+            app:cornerRadius="14dp" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/saveButton"
             style="@style/Widget.Material3.Button"
             android:layout_width="wrap_content"
-            android:layout_height="48dp"
-            android:layout_marginStart="8dp"
+            android:layout_height="52dp"
+            android:layout_marginStart="12dp"
             android:text="@string/calibration_save"
             android:textColor="@color/white"
+            android:fontFamily="sans-serif-medium"
             app:backgroundTint="@color/level_medium"
-            app:cornerRadius="12dp"
+            app:cornerRadius="14dp"
             app:icon="@drawable/ic_check"
-            app:iconTint="@color/white" />
+            app:iconTint="@color/white"
+            app:iconSize="20dp" />
 
     </LinearLayout>
 

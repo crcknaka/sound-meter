@@ -7,15 +7,16 @@
     android:background="@color/background"
     tools:context=".MainActivity">
 
-    <!-- Top Bar -->
+    <!-- Top Bar - Clean minimal header -->
     <LinearLayout
         android:id="@+id/topBar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center_vertical"
-        android:paddingHorizontal="20dp"
-        android:paddingTop="16dp"
+        android:paddingHorizontal="24dp"
+        android:paddingTop="20dp"
+        android:paddingBottom="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -32,55 +33,79 @@
                 android:layout_height="wrap_content"
                 android:text="@string/app_name"
                 android:textColor="@color/text_primary"
-                android:textSize="24sp"
-                android:textStyle="bold" />
+                android:textSize="26sp"
+                android:fontFamily="sans-serif-medium"
+                android:letterSpacing="-0.02" />
 
             <TextView
                 android:id="@+id/subtitleText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
                 android:text="@string/app_subtitle"
-                android:textColor="@color/text_secondary"
-                android:textSize="14sp" />
+                android:textColor="@color/text_tertiary"
+                android:textSize="13sp"
+                android:letterSpacing="0.02" />
 
         </LinearLayout>
 
-        <ImageButton
-            android:id="@+id/settingsButton"
-            android:layout_width="44dp"
-            android:layout_height="44dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:contentDescription="@string/settings"
-            android:src="@drawable/ic_settings"
-            app:tint="@color/text_secondary" />
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            app:cardBackgroundColor="@color/card_background"
+            app:cardCornerRadius="14dp"
+            app:cardElevation="0dp"
+            app:strokeWidth="1dp"
+            app:strokeColor="@color/card_stroke">
+
+            <ImageButton
+                android:id="@+id/settingsButton"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/settings"
+                android:src="@drawable/ic_settings"
+                app:tint="@color/text_secondary" />
+
+        </com.google.android.material.card.MaterialCardView>
 
     </LinearLayout>
 
     <!-- Calibration Indicator (shows during vertical swipe) -->
-    <TextView
-        android:id="@+id/calibrationIndicator"
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/calibrationIndicatorCard"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:alpha="0"
-        android:background="@drawable/level_badge_background"
-        android:paddingHorizontal="20dp"
-        android:paddingVertical="10dp"
-        android:text="0.0 dB"
-        android:textColor="@color/white"
-        android:textSize="18sp"
-        android:textStyle="bold"
+        app:cardBackgroundColor="@color/level_medium"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="8dp"
         app:layout_constraintBottom_toTopOf="@id/displayContainer"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/topBar" />
+        app:layout_constraintTop_toBottomOf="@id/topBar">
+
+        <TextView
+            android:id="@+id/calibrationIndicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="24dp"
+            android:paddingVertical="12dp"
+            android:text="0.0 dB"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:fontFamily="sans-serif-medium"
+            android:letterSpacing="0.02" />
+
+    </com.google.android.material.card.MaterialCardView>
 
     <!-- Main Display Container (switches between views) -->
     <FrameLayout
         android:id="@+id/displayContainer"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginTop="12dp"
         app:layout_constraintBottom_toTopOf="@id/graphCard"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -92,13 +117,15 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:cardBackgroundColor="@color/card_background"
-            app:cardCornerRadius="24dp"
-            app:cardElevation="8dp">
+            app:cardCornerRadius="28dp"
+            app:cardElevation="0dp"
+            app:strokeWidth="1dp"
+            app:strokeColor="@color/card_stroke">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:padding="24dp">
+                android:padding="28dp">
 
                 <!-- Current dB Value -->
                 <TextView
@@ -107,9 +134,9 @@
                     android:layout_height="wrap_content"
                     android:text="0"
                     android:textColor="@color/decibel_text"
-                    android:textSize="96sp"
-                    android:textStyle="bold"
-                    android:fontFamily="sans-serif-light"
+                    android:textSize="112sp"
+                    android:fontFamily="sans-serif-thin"
+                    android:letterSpacing="-0.05"
                     app:layout_constraintBottom_toTopOf="@id/levelIndicator"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -123,44 +150,55 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/decibel_unit"
-                    android:textColor="@color/text_secondary"
-                    android:textSize="28sp"
+                    android:textColor="@color/text_tertiary"
+                    android:textSize="24sp"
+                    android:fontFamily="sans-serif-light"
                     app:layout_constraintStart_toEndOf="@id/decibelText"
                     app:layout_constraintTop_toTopOf="@id/decibelText"
                     android:layout_marginStart="4dp"
-                    android:layout_marginTop="24dp" />
+                    android:layout_marginTop="32dp" />
 
-                <!-- Level Indicator -->
-                <TextView
-                    android:id="@+id/levelIndicator"
+                <!-- Level Indicator Badge -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/levelIndicatorCard"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:paddingHorizontal="24dp"
-                    android:paddingVertical="8dp"
-                    android:text="@string/level_quiet"
-                    android:textColor="@color/white"
-                    android:textSize="16sp"
-                    android:textAllCaps="true"
-                    android:letterSpacing="0.1"
-                    android:background="@drawable/level_badge_background"
+                    android:layout_marginTop="12dp"
+                    app:cardBackgroundColor="@color/level_low"
+                    app:cardCornerRadius="20dp"
+                    app:cardElevation="0dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/decibelText"
-                    app:layout_constraintBottom_toTopOf="@id/statsLayout" />
+                    app:layout_constraintBottom_toTopOf="@id/statsLayout">
+
+                    <TextView
+                        android:id="@+id/levelIndicator"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingHorizontal="28dp"
+                        android:paddingVertical="10dp"
+                        android:text="@string/level_quiet"
+                        android:textColor="@color/white"
+                        android:textSize="14sp"
+                        android:fontFamily="sans-serif-medium"
+                        android:textAllCaps="true"
+                        android:letterSpacing="0.15" />
+
+                </com.google.android.material.card.MaterialCardView>
 
                 <!-- Stats Row -->
                 <LinearLayout
                     android:id="@+id/statsLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="24dp"
+                    android:layout_marginTop="28dp"
                     android:orientation="horizontal"
                     android:gravity="center"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/levelIndicator">
+                    app:layout_constraintTop_toBottomOf="@id/levelIndicatorCard">
 
                     <!-- MIN -->
                     <LinearLayout
@@ -174,17 +212,20 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/min_label"
-                            android:textColor="@color/text_secondary"
-                            android:textSize="14sp" />
+                            android:textColor="@color/text_tertiary"
+                            android:textSize="12sp"
+                            android:fontFamily="sans-serif-medium"
+                            android:letterSpacing="0.1" />
 
                         <TextView
                             android:id="@+id/minText"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
                             android:text="--"
                             android:textColor="@color/level_low"
-                            android:textSize="28sp"
-                            android:textStyle="bold" />
+                            android:textSize="32sp"
+                            android:fontFamily="sans-serif-medium" />
 
                     </LinearLayout>
 
@@ -200,17 +241,20 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/avg_label"
-                            android:textColor="@color/text_secondary"
-                            android:textSize="14sp" />
+                            android:textColor="@color/text_tertiary"
+                            android:textSize="12sp"
+                            android:fontFamily="sans-serif-medium"
+                            android:letterSpacing="0.1" />
 
                         <TextView
                             android:id="@+id/avgText"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
                             android:text="--"
                             android:textColor="@color/level_medium"
-                            android:textSize="28sp"
-                            android:textStyle="bold" />
+                            android:textSize="32sp"
+                            android:fontFamily="sans-serif-medium" />
 
                     </LinearLayout>
 
@@ -226,17 +270,20 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/max_label"
-                            android:textColor="@color/text_secondary"
-                            android:textSize="14sp" />
+                            android:textColor="@color/text_tertiary"
+                            android:textSize="12sp"
+                            android:fontFamily="sans-serif-medium"
+                            android:letterSpacing="0.1" />
 
                         <TextView
                             android:id="@+id/maxText"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
                             android:text="--"
                             android:textColor="@color/level_high"
-                            android:textSize="28sp"
-                            android:textStyle="bold" />
+                            android:textSize="32sp"
+                            android:fontFamily="sans-serif-medium" />
 
                     </LinearLayout>
 
@@ -253,14 +300,16 @@
             android:layout_height="match_parent"
             android:visibility="gone"
             app:cardBackgroundColor="@color/card_background"
-            app:cardCornerRadius="24dp"
-            app:cardElevation="8dp">
+            app:cardCornerRadius="28dp"
+            app:cardElevation="0dp"
+            app:strokeWidth="1dp"
+            app:strokeColor="@color/card_stroke">
 
             <com.soundmeter.app.SpeedometerView
                 android:id="@+id/speedometerView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:padding="16dp" />
+                android:padding="20dp" />
 
         </com.google.android.material.card.MaterialCardView>
 
@@ -271,14 +320,16 @@
             android:layout_height="match_parent"
             android:visibility="gone"
             app:cardBackgroundColor="@color/card_background"
-            app:cardCornerRadius="24dp"
-            app:cardElevation="8dp">
+            app:cardCornerRadius="28dp"
+            app:cardElevation="0dp"
+            app:strokeWidth="1dp"
+            app:strokeColor="@color/card_stroke">
 
             <com.soundmeter.app.VuMeterView
                 android:id="@+id/vuMeterView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:padding="16dp" />
+                android:padding="20dp" />
 
         </com.google.android.material.card.MaterialCardView>
 
@@ -289,33 +340,47 @@
             android:layout_height="match_parent"
             android:visibility="gone"
             app:cardBackgroundColor="@color/card_background"
-            app:cardCornerRadius="24dp"
-            app:cardElevation="8dp">
+            app:cardCornerRadius="28dp"
+            app:cardElevation="0dp"
+            app:strokeWidth="1dp"
+            app:strokeColor="@color/card_stroke">
 
             <com.soundmeter.app.CircularGaugeView
                 android:id="@+id/circularGaugeView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:padding="16dp" />
+                android:padding="20dp" />
 
         </com.google.android.material.card.MaterialCardView>
 
     </FrameLayout>
 
-    <!-- Real-time Graph (1/3 of screen) -->
+    <!-- Small spacer between display and graph -->
+    <View
+        android:id="@+id/sectionSpacer"
+        android:layout_width="match_parent"
+        android:layout_height="12dp"
+        app:layout_constraintTop_toBottomOf="@id/displayContainer"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Real-time Graph -->
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/graphCard"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginBottom="16dp"
         app:cardBackgroundColor="@color/card_background"
         app:cardCornerRadius="24dp"
-        app:cardElevation="8dp"
+        app:cardElevation="0dp"
+        app:strokeWidth="1dp"
+        app:strokeColor="@color/card_stroke"
         app:layout_constraintBottom_toTopOf="@id/controlsContainer"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintHeight_percent="0.28">
+        app:layout_constraintTop_toBottomOf="@id/sectionSpacer"
+        app:layout_constraintHeight_max="180dp">
 
         <com.soundmeter.app.SoundWaveView
             android:id="@+id/soundWaveView"
@@ -329,9 +394,9 @@
         android:id="@+id/controlsContainer"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="24dp"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -342,35 +407,41 @@
             android:id="@+id/resetButton"
             style="@style/Widget.Material3.Button.OutlinedButton"
             android:layout_width="0dp"
-            android:layout_height="56dp"
-            android:layout_marginEnd="8dp"
+            android:layout_height="60dp"
+            android:layout_marginEnd="12dp"
             android:layout_weight="1"
             android:text="@string/reset"
             android:textSize="15sp"
+            android:fontFamily="sans-serif-medium"
+            android:letterSpacing="0.02"
             app:icon="@drawable/ic_reset"
             app:iconGravity="textStart"
             app:iconPadding="8dp"
-            app:cornerRadius="16dp"
-            app:strokeWidth="2dp" />
+            app:iconSize="20dp"
+            app:cornerRadius="18dp"
+            app:strokeWidth="1.5dp"
+            app:strokeColor="@color/card_stroke" />
 
         <!-- Start/Stop Button -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/startStopButton"
             style="@style/Widget.Material3.Button"
             android:layout_width="0dp"
-            android:layout_height="56dp"
-            android:layout_marginStart="8dp"
+            android:layout_height="60dp"
+            android:layout_marginStart="4dp"
             android:layout_weight="1.5"
             android:text="@string/stop"
             android:textColor="@color/white"
             android:textSize="16sp"
-            android:textStyle="bold"
+            android:fontFamily="sans-serif-medium"
+            android:letterSpacing="0.02"
             app:icon="@drawable/ic_stop"
             app:iconTint="@color/white"
             app:iconGravity="textStart"
-            app:iconPadding="8dp"
+            app:iconPadding="10dp"
+            app:iconSize="22dp"
             app:backgroundTint="@color/level_danger"
-            app:cornerRadius="16dp" />
+            app:cornerRadius="18dp" />
 
     </LinearLayout>
 

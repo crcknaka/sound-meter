@@ -25,7 +25,7 @@ class VuMeterView @JvmOverloads constructor(
     // Paints
     private val barBackgroundPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         style = Paint.Style.FILL
-        color = Color.parseColor("#1A1A1A")
+        color = Color.parseColor("#18181B")
     }
 
     private val peakPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
@@ -38,47 +38,50 @@ class VuMeterView @JvmOverloads constructor(
     }
 
     private val textPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        textSize = 36f
-        color = Color.parseColor("#666666")
+        textSize = 42f
+        color = Color.parseColor("#71717A")
         textAlign = Paint.Align.CENTER
     }
 
     private val dbTextPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        textSize = 130f
+        textSize = 165f
         color = Color.WHITE
         textAlign = Paint.Align.CENTER
-        typeface = Typeface.create(Typeface.DEFAULT, Typeface.BOLD)
+        typeface = Typeface.create("sans-serif-light", Typeface.NORMAL)
     }
 
     private val labelPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        textSize = 36f
-        color = Color.parseColor("#888888")
+        textSize = 48f
+        color = Color.parseColor("#71717A")
         textAlign = Paint.Align.CENTER
     }
 
     private val levelTextPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        textSize = 44f
+        textAlign = Paint.Align.CENTER
+        letterSpacing = 0.08f
+    }
+
+    private val statsLabelPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         textSize = 36f
+        color = Color.parseColor("#71717A")
         textAlign = Paint.Align.CENTER
         letterSpacing = 0.05f
     }
 
-    private val statsLabelPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        textSize = 28f
-        color = Color.parseColor("#666666")
-        textAlign = Paint.Align.CENTER
-    }
-
     private val statsValuePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        textSize = 44f
+        textSize = 58f
         textAlign = Paint.Align.CENTER
-        typeface = Typeface.create(Typeface.DEFAULT, Typeface.BOLD)
+        typeface = Typeface.create("sans-serif-medium", Typeface.NORMAL)
     }
 
-    // Colors
-    private val colorGreen = Color.parseColor("#00E676")
-    private val colorYellow = Color.parseColor("#FFEA00")
-    private val colorOrange = Color.parseColor("#FF9100")
-    private val colorRed = Color.parseColor("#FF1744")
+    // Colors - Modern vibrant palette
+    private val colorGreen = Color.parseColor("#22C55E")
+    private val colorYellow = Color.parseColor("#EAB308")
+    private val colorOrange = Color.parseColor("#F97316")
+    private val colorRed = Color.parseColor("#EF4444")
+    private val colorBackground = Color.parseColor("#18181B")
+    private val colorSurface = Color.parseColor("#27272A")
 
     private val minDbRange = 20f
     private val maxDbRange = 100f
@@ -125,8 +128,8 @@ class VuMeterView @JvmOverloads constructor(
 
         for (i in 0 until segmentCount) {
             val x = padding + i * (segmentWidth + segmentGap)
-            barBackgroundPaint.color = Color.parseColor("#1A1A1A")
-            canvas.drawRoundRect(x, barTop, x + segmentWidth, barTop + barHeight, 4f, 4f, barBackgroundPaint)
+            barBackgroundPaint.color = colorBackground
+            canvas.drawRoundRect(x, barTop, x + segmentWidth, barTop + barHeight, 5f, 5f, barBackgroundPaint)
         }
 
         // Draw active segments
@@ -151,7 +154,7 @@ class VuMeterView @JvmOverloads constructor(
                 segmentPaint.clearShadowLayer()
             }
 
-            canvas.drawRoundRect(x, barTop, x + segmentWidth, barTop + barHeight, 4f, 4f, segmentPaint)
+            canvas.drawRoundRect(x, barTop, x + segmentWidth, barTop + barHeight, 5f, 5f, segmentPaint)
         }
 
         // Draw peak indicator
@@ -160,7 +163,7 @@ class VuMeterView @JvmOverloads constructor(
             val peakSegment = (normalizedPeak * segmentCount).toInt().coerceIn(0, segmentCount - 1)
             val peakX = padding + peakSegment * (segmentWidth + segmentGap)
             peakPaint.color = Color.WHITE
-            canvas.drawRoundRect(peakX, barTop - 2f, peakX + segmentWidth, barTop + barHeight + 2f, 4f, 4f, peakPaint)
+            canvas.drawRoundRect(peakX, barTop - 2f, peakX + segmentWidth, barTop + barHeight + 2f, 5f, 5f, peakPaint)
         }
 
         // Draw scale labels

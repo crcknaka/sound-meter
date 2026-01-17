@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:background="@drawable/dialog_background">
+    android:background="@drawable/dialog_background"
+    android:paddingTop="28dp">
 
     <!-- Header with icon -->
     <LinearLayout
@@ -12,30 +13,40 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center_vertical"
-        android:paddingHorizontal="24dp"
-        android:paddingTop="24dp">
+        android:paddingHorizontal="24dp">
 
-        <ImageView
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:src="@drawable/ic_view_mode"
-            app:tint="@color/primary" />
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            app:cardBackgroundColor="@color/primary"
+            app:cardCornerRadius="14dp"
+            app:cardElevation="0dp">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_view_mode"
+                app:tint="@color/white" />
+
+        </com.google.android.material.card.MaterialCardView>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
+            android:layout_marginStart="16dp"
             android:text="@string/view_mode"
             android:textColor="@color/text_primary"
             android:textSize="22sp"
-            android:textStyle="bold" />
+            android:fontFamily="sans-serif-medium"
+            android:letterSpacing="-0.02" />
 
     </LinearLayout>
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="12dp"
         android:paddingHorizontal="24dp"
         android:text="@string/view_mode_description"
         android:textColor="@color/text_secondary"
@@ -47,35 +58,43 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_marginTop="20dp"
-        android:paddingBottom="16dp">
+        android:paddingHorizontal="16dp"
+        android:paddingBottom="20dp">
 
         <!-- Digital -->
         <LinearLayout
             android:id="@+id/optionDigital"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?attr/selectableItemBackground"
+            android:background="@drawable/view_mode_item_background"
             android:clickable="true"
             android:focusable="true"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:paddingHorizontal="24dp"
-            android:paddingVertical="14dp">
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="16dp"
+            android:layout_marginBottom="8dp">
 
-            <ImageView
-                android:id="@+id/checkDigital"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/ic_radio_checked"
-                android:visibility="gone"
-                app:tint="@color/primary" />
+            <FrameLayout
+                android:layout_width="28dp"
+                android:layout_height="28dp">
 
-            <ImageView
-                android:id="@+id/uncheckDigital"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/ic_radio_unchecked"
-                app:tint="@color/text_secondary" />
+                <ImageView
+                    android:id="@+id/checkDigital"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:src="@drawable/ic_radio_checked"
+                    android:visibility="gone"
+                    app:tint="@color/primary" />
+
+                <ImageView
+                    android:id="@+id/uncheckDigital"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:src="@drawable/ic_radio_unchecked"
+                    app:tint="@color/text_tertiary" />
+
+            </FrameLayout>
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -89,11 +108,13 @@
                     android:layout_height="wrap_content"
                     android:text="@string/view_digital"
                     android:textColor="@color/text_primary"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"
+                    android:fontFamily="sans-serif-medium" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
                     android:text="@string/view_digital_desc"
                     android:textColor="@color/text_secondary"
                     android:textSize="13sp" />
@@ -107,28 +128,35 @@
             android:id="@+id/optionSpeedometer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?attr/selectableItemBackground"
+            android:background="@drawable/view_mode_item_background"
             android:clickable="true"
             android:focusable="true"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:paddingHorizontal="24dp"
-            android:paddingVertical="14dp">
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="16dp"
+            android:layout_marginBottom="8dp">
 
-            <ImageView
-                android:id="@+id/checkSpeedometer"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/ic_radio_checked"
-                android:visibility="gone"
-                app:tint="@color/primary" />
+            <FrameLayout
+                android:layout_width="28dp"
+                android:layout_height="28dp">
 
-            <ImageView
-                android:id="@+id/uncheckSpeedometer"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/ic_radio_unchecked"
-                app:tint="@color/text_secondary" />
+                <ImageView
+                    android:id="@+id/checkSpeedometer"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:src="@drawable/ic_radio_checked"
+                    android:visibility="gone"
+                    app:tint="@color/primary" />
+
+                <ImageView
+                    android:id="@+id/uncheckSpeedometer"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:src="@drawable/ic_radio_unchecked"
+                    app:tint="@color/text_tertiary" />
+
+            </FrameLayout>
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -142,11 +170,13 @@
                     android:layout_height="wrap_content"
                     android:text="@string/view_speedometer"
                     android:textColor="@color/text_primary"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"
+                    android:fontFamily="sans-serif-medium" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
                     android:text="@string/view_speedometer_desc"
                     android:textColor="@color/text_secondary"
                     android:textSize="13sp" />
@@ -160,28 +190,35 @@
             android:id="@+id/optionVuMeter"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?attr/selectableItemBackground"
+            android:background="@drawable/view_mode_item_background"
             android:clickable="true"
             android:focusable="true"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:paddingHorizontal="24dp"
-            android:paddingVertical="14dp">
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="16dp"
+            android:layout_marginBottom="8dp">
 
-            <ImageView
-                android:id="@+id/checkVuMeter"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/ic_radio_checked"
-                android:visibility="gone"
-                app:tint="@color/primary" />
+            <FrameLayout
+                android:layout_width="28dp"
+                android:layout_height="28dp">
 
-            <ImageView
-                android:id="@+id/uncheckVuMeter"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/ic_radio_unchecked"
-                app:tint="@color/text_secondary" />
+                <ImageView
+                    android:id="@+id/checkVuMeter"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:src="@drawable/ic_radio_checked"
+                    android:visibility="gone"
+                    app:tint="@color/primary" />
+
+                <ImageView
+                    android:id="@+id/uncheckVuMeter"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:src="@drawable/ic_radio_unchecked"
+                    app:tint="@color/text_tertiary" />
+
+            </FrameLayout>
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -195,11 +232,13 @@
                     android:layout_height="wrap_content"
                     android:text="@string/view_vu_meter"
                     android:textColor="@color/text_primary"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"
+                    android:fontFamily="sans-serif-medium" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
                     android:text="@string/view_vu_meter_desc"
                     android:textColor="@color/text_secondary"
                     android:textSize="13sp" />
@@ -213,28 +252,34 @@
             android:id="@+id/optionCircular"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?attr/selectableItemBackground"
+            android:background="@drawable/view_mode_item_background"
             android:clickable="true"
             android:focusable="true"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:paddingHorizontal="24dp"
-            android:paddingVertical="14dp">
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="16dp">
 
-            <ImageView
-                android:id="@+id/checkCircular"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/ic_radio_checked"
-                android:visibility="gone"
-                app:tint="@color/primary" />
+            <FrameLayout
+                android:layout_width="28dp"
+                android:layout_height="28dp">
 
-            <ImageView
-                android:id="@+id/uncheckCircular"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/ic_radio_unchecked"
-                app:tint="@color/text_secondary" />
+                <ImageView
+                    android:id="@+id/checkCircular"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:src="@drawable/ic_radio_checked"
+                    android:visibility="gone"
+                    app:tint="@color/primary" />
+
+                <ImageView
+                    android:id="@+id/uncheckCircular"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:src="@drawable/ic_radio_unchecked"
+                    app:tint="@color/text_tertiary" />
+
+            </FrameLayout>
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -248,11 +293,13 @@
                     android:layout_height="wrap_content"
                     android:text="@string/view_circular"
                     android:textColor="@color/text_primary"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"
+                    android:fontFamily="sans-serif-medium" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
                     android:text="@string/view_circular_desc"
                     android:textColor="@color/text_secondary"
                     android:textSize="13sp" />
